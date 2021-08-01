@@ -7,6 +7,8 @@ import Signin from './components/screens/Signin'
 import Profile from './components/screens/Profile'
 import Signup from './components/screens/Signup'
 import CreatePost from './components/screens/CreatePost'
+import Reset from './components/screens/Reset'
+import NewPassword from './components/screens/Newpassword'
 import {reducer,initialState} from './reducers/userReducer'
 import UserProfile from './components/screens/UserProfile'
 import SubUserPost from './components/screens/SubUserPost'
@@ -47,6 +49,12 @@ const Routing = ()=>{
       </Route>
       <Route path="/myfollowingspost">
         <SubUserPost/>
+      </Route>
+      <Route exact path="/reset">
+        <Reset/>
+      </Route>
+      <Route path="/reset/:token">
+        <NewPassword/>
       </Route>
 
       
