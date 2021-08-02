@@ -7,8 +7,14 @@
     "npm": "7.19.1"
   },
   "scripts": {
+<<<<<<< HEAD
     "start": "node app.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+=======
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "build": "CI=false && craco build"
+>>>>>>> 14fbd6265c3dc46a2d4816d7b9b7eebdf01608e6
   },
   "author": "",
   "license": "ISC",
