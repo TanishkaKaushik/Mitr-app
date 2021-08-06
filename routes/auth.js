@@ -8,14 +8,29 @@ const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('../config/keys')
 const requireLogin = require('../middleware/requireLogin')
 const nodemailer = require('nodemailer');
+const {google} = require('googleapis')
 require('dotenv').config();
 
+
+
+const CLIENT_ID = '298853147339-ibhlnptg0m2pp3aj6p6vtcrt8q40hf6e.apps.googleusercontent.com'
+const CLIENT_SECRET = 'VZnI-DKTd1oCTG3BIjzjs6Ks'
+const REDIRECT_URI = 'https://developers.google.com/oauthplayground'
+const REFRESH_TOKEN = '1//04gI_9vA7sqoNCgYIARAAGAQSNwF-L9IrewopYQTDk4xh1r2aU0rIMViE8tUBzUUZ2T8S-HFFFp2ax19350Zc1ZUH3nSqWlB5gec'
+
+const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
+oAuth2Client.setCredentials({refresh_token: REFRESH_TOKEN})
+const accessToken = oAuth2Client.getAccessToken()
 
 let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
+        type: 'OAuth2',
         user: process.env.EMAIL,
-        pass: process.env.PASSWORD
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken
     }
 });
 
@@ -110,7 +125,7 @@ router.post('/reset-password', (req,res)=>{
                      subject:"Password Reset",
                      html:`
                      <p>You requested for password reset.</p>
-                     <h5>Click on this <a href="${EMAIL}/reset/${token}"> link </a> to reset password</h5>
+                     <h5>Click on this <a href="${EMAIL}/${token}"> link </a> to reset password</h5>
                      `
                  })
                  res.json({message:"Check your email"})
